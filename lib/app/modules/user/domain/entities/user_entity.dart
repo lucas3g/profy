@@ -1,51 +1,33 @@
+import 'package:profy/app/core/domain/vos/email_vo.dart';
+
 import '../../../../core/domain/entities/base_entity.dart';
-import '../../../../core/domain/vos/int_vo.dart';
 import '../../../../core/domain/vos/text_vo.dart';
-import 'vos/cnpj_vo.dart';
 
 class UserEntity extends BaseEntity {
-  CnpjVO _cnpj;
-  TextVO _username;
+  EmailVO _email;
   TextVO _password;
-  IntVO _ccusto;
 
-  CnpjVO get cnpj => _cnpj;
-  void setCnpj(String value) => _cnpj = CnpjVO(value);
-
-  TextVO get username => _username;
-  void setUserName(String value) => _username = TextVO(value);
+  EmailVO get email => _email;
+  void setEmail(String value) => _email = EmailVO(value);
 
   TextVO get password => _password;
   void setPassword(String value) => _password = TextVO(value);
 
-  IntVO get ccusto => _ccusto;
-  void setCCusto(int value) => _ccusto = IntVO(value);
-
   UserEntity({
     required super.id,
-    String? cnpj,
-    required String username,
+    required String email,
     String? password,
-    required int ccusto,
-  })  : _cnpj = CnpjVO(cnpj ?? ''),
-        _username = TextVO(username),
-        _password = TextVO(password ?? ''),
-        _ccusto = IntVO(ccusto);
+  })  : _email = EmailVO(email),
+        _password = TextVO(password ?? '');
 
   @override
-  int get hashCode =>
-      _cnpj.hashCode ^
-      _username.hashCode ^
-      _password.hashCode ^
-      _ccusto.hashCode;
+  int get hashCode => email.hashCode ^ password.hashCode;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is UserEntity &&
           runtimeType == other.runtimeType &&
-          _cnpj == other._cnpj &&
-          _username == other._username &&
-          _password == other._password &&
-          _ccusto == other._ccusto;
+          email == other.email &&
+          password == other.password;
 }

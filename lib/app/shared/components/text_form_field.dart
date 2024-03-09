@@ -7,7 +7,7 @@ import 'package:profy/app/shared/extensions/build_context_extension.dart';
 
 class AppTextFormField extends StatefulWidget {
   TextEditingController? controller;
-  final String title;
+  String? title;
   final String hint;
   final String? value;
   final String? Function(String?)? validator;
@@ -23,11 +23,12 @@ class AppTextFormField extends StatefulWidget {
   TextInputAction? textInputAction;
   bool readOnly;
   Widget? suffixIcon;
+  Widget? preffixIcon;
 
   AppTextFormField({
     super.key,
     this.controller,
-    required this.title,
+    this.title,
     required this.hint,
     this.onChanged,
     this.value,
@@ -43,6 +44,7 @@ class AppTextFormField extends StatefulWidget {
     this.textInputAction,
     this.readOnly = false,
     this.suffixIcon,
+    this.preffixIcon,
   });
 
   @override
@@ -80,14 +82,13 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
       ),
       decoration: InputDecoration(
         isDense: true,
-        label: Text(widget.title),
+        filled: true,
+        fillColor: context.colorScheme.inversePrimary,
         labelStyle: context.textTheme.bodyLarge?.copyWith(
           color: widget.borderColor ?? context.colorScheme.background,
         ),
         border: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: widget.borderColor ?? context.colorScheme.background,
-          ),
+          borderSide: BorderSide.none,
           borderRadius: BorderRadius.circular(
             AppThemeConstants.mediumBorderRadius,
           ),
@@ -96,33 +97,25 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
           color: widget.borderColor ?? context.colorScheme.background,
         ),
         errorBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: widget.borderColor ?? context.colorScheme.background,
-          ),
+          borderSide: BorderSide.none,
           borderRadius: BorderRadius.circular(
             AppThemeConstants.mediumBorderRadius,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: widget.borderColor ?? context.colorScheme.background,
-          ),
+          borderSide: BorderSide.none,
           borderRadius: BorderRadius.circular(
             AppThemeConstants.mediumBorderRadius,
           ),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: widget.borderColor ?? context.colorScheme.background,
-          ),
+          borderSide: BorderSide.none,
           borderRadius: BorderRadius.circular(
             AppThemeConstants.mediumBorderRadius,
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: widget.borderColor ?? context.colorScheme.background,
-          ),
+          borderSide: BorderSide.none,
           borderRadius: BorderRadius.circular(
             AppThemeConstants.mediumBorderRadius,
           ),
@@ -131,7 +124,9 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
           color: widget.borderColor ??
               context.colorScheme.background.withAlpha(150),
         ),
+        label: Text(widget.title ?? ''),
         hintText: widget.hint,
+        prefixIcon: widget.preffixIcon,
         suffixIcon: widget.hideInput
             ? IconButton(
                 onPressed: () {
