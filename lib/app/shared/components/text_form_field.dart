@@ -126,6 +126,7 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
         ),
         label: Text(widget.title ?? ''),
         hintText: widget.hint,
+        floatingLabelBehavior: FloatingLabelBehavior.never,
         prefixIcon: widget.preffixIcon,
         suffixIcon: widget.hideInput
             ? IconButton(

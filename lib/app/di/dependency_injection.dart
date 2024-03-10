@@ -4,8 +4,10 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:profy/app/core/domain/entities/app_global.dart';
+import 'package:profy/app/core/domain/entities/database_keys.dart';
 import 'package:profy/app/di/dependency_injection.config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -16,6 +18,8 @@ final GetIt getIt = GetIt.instance;
 )
 Future<void> configureDependencies() async {
   _initAppGlobal();
+
+  await _initializeSupaBase();
 
   await getIt.init();
 
@@ -33,6 +37,19 @@ abstract class RegisterModule {
   Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
 
   Dio get dio => _dioFactory();
+
+  SupabaseClient get supabase => _getSupaBaseClient();
+}
+
+SupabaseClient _getSupaBaseClient() {
+  return Supabase.instance.client;
+}
+
+Future<void> _initializeSupaBase() async {
+  await Supabase.initialize(
+    url: DatabaseKeys.baseUrl,
+    anonKey: DatabaseKeys.apiKey,
+  );
 }
 
 Dio _dioFactory() {

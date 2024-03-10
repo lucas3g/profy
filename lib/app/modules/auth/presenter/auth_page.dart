@@ -1,6 +1,9 @@
 // ignore_for_file: unawaited_futures
 
 import 'package:flutter/material.dart';
+import 'package:profy/app/core/data/clients/database/params/client_database_params.dart';
+import 'package:profy/app/core/data/clients/database/supabase/supabase_client.dart';
+import 'package:profy/app/di/dependency_injection.dart';
 import 'package:profy/app/shared/components/custom_button.dart';
 import 'package:profy/app/shared/components/spacer_height_widget.dart';
 import 'package:profy/app/shared/components/text_form_field.dart';
@@ -15,6 +18,11 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
+  final SupaBaseService supabase = getIt<SupaBaseService>();
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   bool createAccount = false;
   bool visibleFormLogin = true;
   bool visibleFormCreateAccount = false;
@@ -266,6 +274,7 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
                             title: 'Email',
                             hint: 'Digite seu email',
                             preffixIcon: const Icon(Icons.email),
+                            controller: emailController,
                           ),
                           const SpacerHeight(),
                           AppTextFormField(
@@ -273,12 +282,13 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
                             title: 'Senha',
                             hint: 'Digite sua senha',
                             preffixIcon: const Icon(Icons.password),
+                            controller: passwordController,
                           ),
                           const SpacerHeight(),
                           AppTextFormField(
                             borderColor: context.colorScheme.onBackground,
                             title: 'Confirmar senha',
-                            hint: 'Digite sua senha',
+                            hint: 'Confirme sua senha',
                             preffixIcon: const Icon(Icons.password),
                           ),
                           const SpacerHeight(),
@@ -286,7 +296,14 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
                             expands: true,
                             label: const Text('Criar conta'),
                             icon: const Icon(Icons.check),
-                            onPressed: () {},
+                            onPressed: () async {
+                              await supabase.createAccount(
+                                params: ClientDataBaseCreateAccountParams(
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                ),
+                              );
+                            },
                           ),
                           const SpacerHeight(),
                           Row(

@@ -1,7 +1,9 @@
+import 'package:injectable/injectable.dart';
 import 'package:profy/app/core/data/clients/database/client_database.dart';
 import 'package:profy/app/core/data/clients/database/params/client_database_params.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+@Injectable(as: ClientDataBase)
 class SupaBaseService implements ClientDataBase {
   final SupabaseClient supa;
 
@@ -94,5 +96,20 @@ class SupaBaseService implements ClientDataBase {
         .order(params.orderBy, ascending: true);
 
     return result;
+  }
+
+  @override
+  Future<Map<String, dynamic>> createAccount(
+      {required ClientDataBaseCreateAccountParams params}) async {
+    final AuthResponse result = await supa.auth.signUp(
+      email: params.email,
+      password: params.password,
+    );
+
+    if (result.user == null) {
+      throw Exception('Erro ao tentar criar conta');
+    }
+
+    return result.user!.toJson();
   }
 }

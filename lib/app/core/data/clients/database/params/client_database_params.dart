@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:profy/app/core/data/clients/database/helpers/client_tables.dart';
 
 class ClientDataBaseSaveParams {
@@ -65,5 +66,15 @@ class ClientDataBaseGetDataWithForeignTablesParams {
     required this.table,
     required this.foreignTable,
     required this.orderBy,
+  });
+}
+
+class ClientDataBaseCreateAccountParams {
+  final String email;
+  final String password;
+
+  ClientDataBaseCreateAccountParams({
+    required this.email,
+    required this.password,
   });
 }
