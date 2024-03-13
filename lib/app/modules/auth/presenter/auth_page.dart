@@ -1,9 +1,8 @@
 // ignore_for_file: unawaited_futures
 
 import 'package:flutter/material.dart';
-import 'package:profy/app/core/data/clients/database/params/client_database_params.dart';
-import 'package:profy/app/core/data/clients/database/supabase/supabase_client.dart';
 import 'package:profy/app/di/dependency_injection.dart';
+import 'package:profy/app/modules/auth/domain/usecases/signup_user.dart';
 import 'package:profy/app/shared/components/custom_button.dart';
 import 'package:profy/app/shared/components/spacer_height_widget.dart';
 import 'package:profy/app/shared/components/text_form_field.dart';
@@ -18,7 +17,7 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
-  final SupaBaseService supabase = getIt<SupaBaseService>();
+  final SignUpUseCase signUp = getIt<SignUpUseCase>();
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -296,14 +295,7 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
                             expands: true,
                             label: const Text('Criar conta'),
                             icon: const Icon(Icons.check),
-                            onPressed: () async {
-                              await supabase.createAccount(
-                                params: ClientDataBaseCreateAccountParams(
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                ),
-                              );
-                            },
+                            onPressed: () async {},
                           ),
                           const SpacerHeight(),
                           Row(

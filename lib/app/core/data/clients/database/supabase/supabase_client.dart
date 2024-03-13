@@ -5,16 +5,16 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 @Injectable(as: ClientDataBase)
 class SupaBaseService implements ClientDataBase {
-  final SupabaseClient supa;
+  final SupabaseClient _supa;
 
   SupaBaseService({
-    required this.supa,
-  });
+    required SupabaseClient supa,
+  }) : _supa = supa;
 
   @override
   Future<List<Map<String, dynamic>>> getDataByField(
       {required ClientDataBaseGetDataByFieldParams params}) async {
-    final PostgrestList result = await supa
+    final PostgrestList result = await _supa
         .from(params.table.name)
         .select()
         .eq(params.field, params.value)
@@ -27,7 +27,7 @@ class SupaBaseService implements ClientDataBase {
   Future<List<Map<String, dynamic>>> saveData(
       {required ClientDataBaseSaveParams params}) async {
     final PostgrestList result =
-        await supa.from(params.table.name).insert(params.data).select();
+        await _supa.from(params.table.name).insert(params.data).select();
 
     return result;
   }
@@ -39,7 +39,7 @@ class SupaBaseService implements ClientDataBase {
       late List<Map<String, dynamic>> result = <Map<String, dynamic>>[];
 
       for (Map<String, dynamic> data in params.data) {
-        result = await supa
+        result = await _supa
             .from(params.table.name)
             .update(data)
             .eq('id', data['id'])
@@ -48,7 +48,7 @@ class SupaBaseService implements ClientDataBase {
 
       return result;
     } else {
-      final PostgrestList result = await supa
+      final PostgrestList result = await _supa
           .from(params.table.name)
           .update(params.data)
           .eq('id', params.data['id'])
@@ -62,7 +62,7 @@ class SupaBaseService implements ClientDataBase {
   Future<List<Map<String, dynamic>>> getDataByFilters(
       {required ClientDataBaseGetDataByFiltersParams params}) async {
     if (params.filters.length == 3) {
-      final PostgrestList result = await supa
+      final PostgrestList result = await _supa
           .from(params.table.name)
           .select()
           .eq(params.filters.elementAt(0).field,
@@ -82,7 +82,7 @@ class SupaBaseService implements ClientDataBase {
     }
 
     final PostgrestList result =
-        await supa.from(params.table.name).select().match(match);
+        await _supa.from(params.table.name).select().match(match);
 
     return result;
   }
@@ -90,7 +90,7 @@ class SupaBaseService implements ClientDataBase {
   @override
   Future<List<Map<String, dynamic>>> getDataWithForeignTables(
       {required ClientDataBaseGetDataWithForeignTablesParams params}) async {
-    final PostgrestList result = await supa
+    final PostgrestList result = await _supa
         .from(params.table.name)
         .select('*, ${params.foreignTable.name}!inner(*)')
         .order(params.orderBy, ascending: true);
@@ -101,7 +101,7 @@ class SupaBaseService implements ClientDataBase {
   @override
   Future<Map<String, dynamic>> createAccount(
       {required ClientDataBaseCreateAccountParams params}) async {
-    final AuthResponse result = await supa.auth.signUp(
+    final AuthResponse result = await _supa.auth.signUp(
       email: params.email,
       password: params.password,
     );

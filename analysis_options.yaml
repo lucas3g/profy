@@ -2,7 +2,7 @@ analyzer:
   exclude:
     - lib/*/**.g.dart
     - lib/*/**.freezed.dart
-    - lib/app/di/**.config.dart
+    - lib/di/**.config.dart
 
   errors:
     missing_required_param: error

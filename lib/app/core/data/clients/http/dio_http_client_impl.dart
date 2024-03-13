@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:profy/app/core/domain/entities/failure.dart';
+import 'package:profy/app/core/domain/entities/http_failure.dart';
+import 'package:profy/app/core/domain/entities/network_failure.dart';
+import 'package:profy/app/core/domain/entities/response_entity.dart';
 
-import '../../../domain/entities/failure.dart';
-import '../../../domain/entities/http_failure.dart';
-import '../../../domain/entities/network_failure.dart';
-import '../../../domain/entities/response_entity.dart';
 import 'client_http.dart';
 
 @Singleton(as: ClientHttp)

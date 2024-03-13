@@ -19,8 +19,6 @@ final GetIt getIt = GetIt.instance;
 Future<void> configureDependencies() async {
   _initAppGlobal();
 
-  await _initializeSupaBase();
-
   await getIt.init();
 
   // final UserEntity? user = await _tryAutoLogin();
@@ -36,20 +34,19 @@ abstract class RegisterModule {
   @preResolve
   Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
 
+  @preResolve
+  Future<SupabaseClient> get supabase => _initializeSupaBase();
+
   Dio get dio => _dioFactory();
-
-  SupabaseClient get supabase => _getSupaBaseClient();
 }
 
-SupabaseClient _getSupaBaseClient() {
-  return Supabase.instance.client;
-}
-
-Future<void> _initializeSupaBase() async {
-  await Supabase.initialize(
+Future<SupabaseClient> _initializeSupaBase() async {
+  final Supabase supa = await Supabase.initialize(
     url: DatabaseKeys.baseUrl,
     anonKey: DatabaseKeys.apiKey,
   );
+
+  return supa.client;
 }
 
 Dio _dioFactory() {
