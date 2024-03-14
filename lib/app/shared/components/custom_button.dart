@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
-import 'package:flutter/material.dart';
-import 'package:profy/app/shared/domain/entities/app_theme_constants.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:profy/app/shared/extensions/build_context_extension.dart';
 
 class AppCustomButton extends StatelessWidget {
@@ -25,22 +24,9 @@ class AppCustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     backgroundColor ??= context.colorScheme.primary;
 
-    return ElevatedButton.icon(
+    return FilledButton(
       onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: backgroundColor,
-        textStyle: context.textTheme.bodyLarge?.copyWith(
-          fontWeight: FontWeight.bold,
-        ),
-        fixedSize: expands ? Size(context.screenWidth, height) : null,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(
-            AppThemeConstants.mediumBorderRadius,
-          ),
-        ),
-      ),
-      icon: icon,
-      label: label,
+      child: label,
     );
   }
 }

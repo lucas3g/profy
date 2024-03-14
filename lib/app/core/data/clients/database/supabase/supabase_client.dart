@@ -112,4 +112,11 @@ class SupaBaseService implements ClientDataBase {
 
     return result.user!.toJson();
   }
+
+  @override
+  Future<Map<String, dynamic>> signIn(
+      {required ClientDataBaseSignInParams params}) {
+    // TODO: implement signIn
+    throw UnimplementedError();
+  }
 }

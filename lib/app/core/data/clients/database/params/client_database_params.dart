@@ -78,3 +78,13 @@ class ClientDataBaseCreateAccountParams {
     required this.password,
   });
 }
+
+class ClientDataBaseSignInParams {
+  final String email;
+  final String password;
+
+  ClientDataBaseSignInParams({
+    required this.email,
+    required this.password,
+  });
+}

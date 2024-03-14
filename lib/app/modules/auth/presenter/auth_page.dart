@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:profy/app/di/dependency_injection.dart';
 import 'package:profy/app/modules/auth/presenter/controllers/bloc/auth_bloc.dart';
@@ -181,9 +182,8 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: context.colorScheme.inversePrimary,
-      body: Center(
+    return Acrylic(
+      child: Center(
         child: Container(
           width: context.screenWidth * .5,
           height: context.screenHeight * .8,
@@ -408,9 +408,6 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
                           color: context.colorScheme.background,
                           fontSize: 30,
                         ),
-                      ),
-                      Divider(
-                        color: context.colorScheme.background,
                       ),
                       Text(
                         'Seu ajudante de pareceres escolares',

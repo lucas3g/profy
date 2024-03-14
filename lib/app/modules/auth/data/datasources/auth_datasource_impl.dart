@@ -35,9 +35,20 @@ class AuthDataSourceImpl implements AuthDataSource {
 
   @override
   Future<UserEntity> signInWithEmailAndPassword(
-      {required String email, required String password}) {
-    // TODO: implement signInWithEmailAndPassword
-    throw UnimplementedError();
+      {required String email, required String password}) async {
+    try {
+      final ClientDataBaseCreateAccountParams params =
+          ClientDataBaseCreateAccountParams(email: email, password: password);
+
+      final Map<String, dynamic> result =
+          await _clientDataBase.createAccount(params: params);
+
+      final UserAdapter user = UserAdapter.fromJson(result);
+
+      return user;
+    } catch (e) {
+      throw _handleError(e);
+    }
   }
 
   @override

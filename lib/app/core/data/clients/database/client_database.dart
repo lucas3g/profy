@@ -13,4 +13,6 @@ abstract class ClientDataBase {
       {required ClientDataBaseGetDataWithForeignTablesParams params});
   Future<Map<String, dynamic>> createAccount(
       {required ClientDataBaseCreateAccountParams params});
+  Future<Map<String, dynamic>> signIn(
+      {required ClientDataBaseSignInParams params});
 }
