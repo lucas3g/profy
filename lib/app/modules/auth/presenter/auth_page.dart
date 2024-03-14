@@ -1,8 +1,13 @@
 // ignore_for_file: unawaited_futures
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:profy/app/di/dependency_injection.dart';
-import 'package:profy/app/modules/auth/domain/usecases/signup_user.dart';
+import 'package:profy/app/modules/auth/presenter/controllers/bloc/auth_bloc.dart';
+import 'package:profy/app/modules/auth/presenter/controllers/bloc/auth_events.dart';
+import 'package:profy/app/modules/auth/presenter/controllers/bloc/auth_states.dart';
+import 'package:profy/app/shared/components/app_snackbar.dart';
 import 'package:profy/app/shared/components/custom_button.dart';
 import 'package:profy/app/shared/components/spacer_height_widget.dart';
 import 'package:profy/app/shared/components/text_form_field.dart';
@@ -17,7 +22,9 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
-  final SignUpUseCase signUp = getIt<SignUpUseCase>();
+  final AuthBloc _authBloc = getIt<AuthBloc>();
+
+  late StreamSubscription<AuthStates> _sub;
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -110,6 +117,8 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
+    _listenAuthBlocStates();
+
     _animationController = AnimationController(
       vsync: this,
       duration: duration,
@@ -144,6 +153,30 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
         visibleFormLogin = true;
       });
     }
+  }
+
+  void _listenAuthBlocStates() {
+    _sub = _authBloc.stream.listen((AuthStates state) {
+      if (state is AuthSucessState) {
+        //Navigator.of(context).pushReplacementNamed('/home');
+      }
+
+      if (state is AuthErrorState) {
+        showAppSnackbar(
+          context,
+          title: 'Ops...',
+          message: state.message,
+          type: TypeSnack.error,
+        );
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _sub.cancel();
+
+    super.dispose();
   }
 
   @override
@@ -295,9 +328,9 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
                             expands: true,
                             label: const Text('Criar conta'),
                             icon: const Icon(Icons.check),
-                            onPressed: () async {
-                              await signUp(
-                                CreateAccountArgs(
+                            onPressed: () {
+                              _authBloc.add(
+                                SignUpWithEmailAndPasswordEvent(
                                   email: emailController.text,
                                   password: passwordController.text,
                                 ),

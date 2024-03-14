@@ -10,8 +10,8 @@ class UserAdapter extends UserEntity {
 
   factory UserAdapter.fromJson(Map<String, dynamic> json) {
     return UserAdapter(
-      id: TextVO(json['ID'].toString()),
-      email: json['NOME'],
+      id: TextVO(json['id'].toString()),
+      email: json['email'],
     );
   }
 

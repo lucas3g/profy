@@ -9,7 +9,7 @@ import 'package:profy/app/core/domain/entities/response_entity.dart';
 
 import 'client_http.dart';
 
-@Singleton(as: ClientHttp)
+@Injectable(as: ClientHttp)
 class DioClientHttpImpl implements ClientHttp {
   final Dio _dio;
 
