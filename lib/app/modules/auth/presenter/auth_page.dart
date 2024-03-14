@@ -1,6 +1,8 @@
 // ignore_for_file: unawaited_futures
 
 import 'package:flutter/material.dart';
+import 'package:profy/app/di/dependency_injection.dart';
+import 'package:profy/app/modules/auth/domain/usecases/signup_user.dart';
 import 'package:profy/app/shared/components/custom_button.dart';
 import 'package:profy/app/shared/components/spacer_height_widget.dart';
 import 'package:profy/app/shared/components/text_form_field.dart';
@@ -15,7 +17,7 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
-  //final SignUpUseCase signUp = getIt<SignUpUseCase>();
+  final SignUpUseCase signUp = getIt<SignUpUseCase>();
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -151,7 +153,7 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
       body: Center(
         child: Container(
           width: context.screenWidth * .5,
-          height: context.screenHeight * .5,
+          height: context.screenHeight * .8,
           decoration: BoxDecoration(
             color: context.colorScheme.background,
             borderRadius: BorderRadius.circular(
@@ -176,7 +178,7 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
                     child: Container(
                       padding: const EdgeInsets.all(AppThemeConstants.padding),
                       width: context.screenWidth * .25,
-                      height: context.screenHeight * .5,
+                      height: context.screenHeight * .8,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
@@ -247,7 +249,7 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
                     child: Container(
                       padding: const EdgeInsets.all(AppThemeConstants.padding),
                       width: context.screenWidth * .25,
-                      height: context.screenHeight * .5,
+                      height: context.screenHeight * .8,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
@@ -293,7 +295,14 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
                             expands: true,
                             label: const Text('Criar conta'),
                             icon: const Icon(Icons.check),
-                            onPressed: () async {},
+                            onPressed: () async {
+                              await signUp(
+                                CreateAccountArgs(
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                ),
+                              );
+                            },
                           ),
                           const SpacerHeight(),
                           Row(
@@ -329,7 +338,7 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
                 child: AnimatedContainer(
                   duration: duration,
                   width: context.screenWidth * .25,
-                  height: context.screenHeight * .5,
+                  height: context.screenHeight * .8,
                   padding: const EdgeInsets.all(AppThemeConstants.padding),
                   decoration: BoxDecoration(
                     color: context.colorScheme.primary,

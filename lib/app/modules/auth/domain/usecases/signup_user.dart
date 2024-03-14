@@ -1,6 +1,6 @@
 import 'package:injectable/injectable.dart';
+import 'package:profy/app/core/data/clients/database/client_database.dart';
 import 'package:profy/app/core/data/clients/database/params/client_database_params.dart';
-import 'package:profy/app/core/data/clients/database/supabase/supabase_client.dart';
 import 'package:profy/app/core/domain/entities/either_of.dart';
 import 'package:profy/app/core/domain/entities/failure.dart';
 import 'package:profy/app/core/domain/entities/network_failure.dart';
@@ -11,11 +11,11 @@ import 'package:profy/app/modules/user/domain/entities/user_entity.dart';
 
 @injectable
 class SignUpUseCase implements UseCase<UserEntity, CreateAccountArgs> {
-  final SupaBaseService supaBaseService;
+  final ClientDataBase _clientDataBase;
 
   SignUpUseCase({
-    required this.supaBaseService,
-  });
+    required ClientDataBase clientDataBase,
+  }) : _clientDataBase = clientDataBase;
 
   @override
   Future<EitherOf<AppFailure, UserEntity>> call(CreateAccountArgs args) async {
@@ -24,7 +24,7 @@ class SignUpUseCase implements UseCase<UserEntity, CreateAccountArgs> {
           ClientDataBaseCreateAccountParams(
               email: args.email, password: args.password);
 
-      final Map<String, dynamic> result = await supaBaseService.createAccount(
+      final Map<String, dynamic> result = await _clientDataBase.createAccount(
         params: params,
       );
 

@@ -12,16 +12,16 @@ import 'package:dio/dio.dart' as _i3;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 import 'package:shared_preferences/shared_preferences.dart' as _i4;
-import 'package:supabase_flutter/supabase_flutter.dart' as _i7;
+import 'package:supabase_flutter/supabase_flutter.dart' as _i5;
 
-import '../core/data/clients/database/client_database.dart' as _i8;
-import '../core/data/clients/database/supabase/supabase_client.dart' as _i6;
-import '../core/data/clients/http/client_http.dart' as _i9;
-import '../core/data/clients/http/dio_http_client_impl.dart' as _i10;
-import '../core/data/clients/local_storage/local_storage.dart' as _i11;
+import '../core/data/clients/database/client_database.dart' as _i6;
+import '../core/data/clients/database/supabase/supabase_client.dart' as _i7;
+import '../core/data/clients/http/client_http.dart' as _i8;
+import '../core/data/clients/http/dio_http_client_impl.dart' as _i9;
+import '../core/data/clients/local_storage/local_storage.dart' as _i10;
 import '../core/data/clients/local_storage/shared_preferences_service.dart'
-    as _i12;
-import '../modules/auth/domain/usecases/signup_user.dart' as _i5;
+    as _i11;
+import '../modules/auth/domain/usecases/signup_user.dart' as _i12;
 import '../modules/user/data/datasources/local/shared_prefs_local_datasource_impl.dart'
     as _i14;
 import '../modules/user/data/datasources/local/user_local_datasource.dart'
@@ -45,21 +45,20 @@ extension GetItInjectableX on _i1.GetIt {
       () => registerModule.prefs,
       preResolve: true,
     );
-    await gh.factoryAsync<_i7.SupabaseClient>(
+    await gh.factoryAsync<_i5.SupabaseClient>(
       () => registerModule.supabase,
       preResolve: true,
     );
-
-    gh.factory<_i8.ClientDataBase>(
-        () => _i6.SupaBaseService(supa: gh<_i7.SupabaseClient>()));
-    gh.factory<_i5.SignUpUseCase>(
-        () => _i5.SignUpUseCase(supaBaseService: gh<_i6.SupaBaseService>()));
-    gh.singleton<_i9.ClientHttp>(_i10.DioClientHttpImpl(dio: gh<_i3.Dio>()));
-    gh.factory<_i11.LocalStorage>(() => _i12.SharedPreferencesService(
+    gh.factory<_i6.ClientDataBase>(
+        () => _i7.SupaBaseService(supa: gh<_i5.SupabaseClient>()));
+    gh.singleton<_i8.ClientHttp>(_i9.DioClientHttpImpl(dio: gh<_i3.Dio>()));
+    gh.factory<_i10.LocalStorage>(() => _i11.SharedPreferencesService(
         preferences: gh<_i4.SharedPreferences>()));
+    gh.factory<_i12.SignUpUseCase>(
+        () => _i12.SignUpUseCase(clientDataBase: gh<_i6.ClientDataBase>()));
     gh.factory<_i13.UserLocalDataSource>(() =>
         _i14.SharedPrefsUserLocalDatasourceImpl(
-            localStorage: gh<_i11.LocalStorage>()));
+            localStorage: gh<_i10.LocalStorage>()));
     return this;
   }
 }
