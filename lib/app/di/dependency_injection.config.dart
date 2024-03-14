@@ -21,12 +21,16 @@ import '../core/data/clients/http/dio_http_client_impl.dart' as _i9;
 import '../core/data/clients/local_storage/local_storage.dart' as _i10;
 import '../core/data/clients/local_storage/shared_preferences_service.dart'
     as _i11;
-import '../modules/auth/domain/usecases/signup_user.dart' as _i12;
+import '../modules/auth/data/datasources/auth_datasource.dart' as _i14;
+import '../modules/auth/data/datasources/auth_datasource_impl.dart' as _i15;
+import '../modules/auth/data/repositories/auth_repository_impl.dart' as _i17;
+import '../modules/auth/domain/repositories/auth_repository.dart' as _i16;
+import '../modules/auth/domain/usecases/signup_user.dart' as _i18;
 import '../modules/user/data/datasources/local/shared_prefs_local_datasource_impl.dart'
-    as _i14;
-import '../modules/user/data/datasources/local/user_local_datasource.dart'
     as _i13;
-import 'dependency_injection.dart' as _i15;
+import '../modules/user/data/datasources/local/user_local_datasource.dart'
+    as _i12;
+import 'dependency_injection.dart' as _i19;
 
 extension GetItInjectableX on _i1.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -54,13 +58,17 @@ extension GetItInjectableX on _i1.GetIt {
     gh.singleton<_i8.ClientHttp>(_i9.DioClientHttpImpl(dio: gh<_i3.Dio>()));
     gh.factory<_i10.LocalStorage>(() => _i11.SharedPreferencesService(
         preferences: gh<_i4.SharedPreferences>()));
-    gh.factory<_i12.SignUpUseCase>(
-        () => _i12.SignUpUseCase(clientDataBase: gh<_i6.ClientDataBase>()));
-    gh.factory<_i13.UserLocalDataSource>(() =>
-        _i14.SharedPrefsUserLocalDatasourceImpl(
+    gh.factory<_i12.UserLocalDataSource>(() =>
+        _i13.SharedPrefsUserLocalDatasourceImpl(
             localStorage: gh<_i10.LocalStorage>()));
+    gh.factory<_i14.AuthDataSource>(() =>
+        _i15.AuthDataSourceImpl(clientDataBase: gh<_i6.ClientDataBase>()));
+    gh.factory<_i16.AuthRepository>(() =>
+        _i17.AuthRepositoryImpl(authDataSource: gh<_i14.AuthDataSource>()));
+    gh.factory<_i18.SignUpUseCase>(
+        () => _i18.SignUpUseCase(authRepository: gh<_i16.AuthRepository>()));
     return this;
   }
 }
 
-class _$RegisterModule extends _i15.RegisterModule {}
+class _$RegisterModule extends _i19.RegisterModule {}

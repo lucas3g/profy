@@ -41,12 +41,12 @@ abstract class RegisterModule {
 }
 
 Future<SupabaseClient> _initializeSupaBase() async {
-  final Supabase supa = await Supabase.initialize(
+  await Supabase.initialize(
     url: DatabaseKeys.baseUrl,
     anonKey: DatabaseKeys.apiKey,
   );
 
-  return supa.client;
+  return Supabase.instance.client;
 }
 
 Dio _dioFactory() {
