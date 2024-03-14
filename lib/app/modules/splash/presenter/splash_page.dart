@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:profy/app/core/domain/entities/named_routes.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -13,7 +14,7 @@ class _SplashPageState extends State<SplashPage> {
     await Future<void>.delayed(const Duration(seconds: 2));
 
     if (mounted) {
-      context.go('/auth');
+      context.go(NamedRoutes.login.route);
     }
   }
 
