@@ -2,7 +2,6 @@
 
 import 'dart:async';
 
-import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:profy/app/di/dependency_injection.dart';
 import 'package:profy/app/modules/auth/presenter/controllers/bloc/auth_bloc.dart';
@@ -182,8 +181,9 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Acrylic(
-      child: Center(
+    return Scaffold(
+      backgroundColor: context.colorScheme.onBackground.withOpacity(0.2),
+      body: Center(
         child: Container(
           width: context.screenWidth * .5,
           height: context.screenHeight * .8,

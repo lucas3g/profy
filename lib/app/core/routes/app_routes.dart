@@ -1,4 +1,4 @@
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/material.dart';
 
 import '../../modules/auth/presenter/auth_page.dart';
 import '../../modules/splash/presenter/splash_page.dart';

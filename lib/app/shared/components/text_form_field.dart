@@ -1,7 +1,8 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:profy/app/shared/domain/entities/app_theme_constants.dart';
 import 'package:profy/app/shared/extensions/build_context_extension.dart';
 
 class AppTextFormField extends StatefulWidget {
@@ -23,7 +24,6 @@ class AppTextFormField extends StatefulWidget {
   bool readOnly;
   Widget? suffixIcon;
   Widget? preffixIcon;
-
   AppTextFormField({
     super.key,
     this.controller,
@@ -45,14 +45,12 @@ class AppTextFormField extends StatefulWidget {
     this.suffixIcon,
     this.preffixIcon,
   });
-
   @override
   State<AppTextFormField> createState() => _AppTextFormFieldState();
 }
 
 class _AppTextFormFieldState extends State<AppTextFormField> {
   late bool _hideInput;
-
   @override
   void initState() {
     super.initState();
@@ -61,12 +59,15 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextBox(
+    return TextFormField(
       readOnly: widget.readOnly,
       focusNode: widget.focusNode,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: widget.keyboardType,
       onChanged: widget.onChanged,
       onTap: widget.onTap,
+      initialValue: widget.value,
+      onFieldSubmitted: widget.onFieldSubmitted,
       textInputAction: widget.textInputAction,
       obscureText: _hideInput,
       controller: widget.controller,
@@ -76,16 +77,70 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
         decorationColor: Colors.transparent,
         decorationThickness: 0,
       ),
-      inputFormatters: widget.inputFormatters,
-      placeholder: widget.hint,
-      prefix: widget.preffixIcon,
-      decoration: BoxDecoration(
-        border: Border.all(
+      decoration: InputDecoration(
+        isDense: true,
+        filled: true,
+        fillColor: context.colorScheme.onBackground.withOpacity(0.1),
+        labelStyle: context.textTheme.bodyLarge?.copyWith(
           color: widget.borderColor ?? context.colorScheme.background,
-          width: 1.0,
         ),
-        borderRadius: BorderRadius.circular(4),
+        border: OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.circular(
+            AppThemeConstants.mediumBorderRadius,
+          ),
+        ),
+        errorStyle: context.textTheme.bodyMedium?.copyWith(
+          color: widget.borderColor ?? context.colorScheme.background,
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.circular(
+            AppThemeConstants.mediumBorderRadius,
+          ),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.circular(
+            AppThemeConstants.mediumBorderRadius,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.circular(
+            AppThemeConstants.mediumBorderRadius,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.circular(
+            AppThemeConstants.mediumBorderRadius,
+          ),
+        ),
+        hintStyle: context.textTheme.bodyMedium?.copyWith(
+          color: widget.borderColor ??
+              context.colorScheme.background.withAlpha(150),
+        ),
+        label: Text(widget.title ?? ''),
+        hintText: widget.hint,
+        floatingLabelBehavior: FloatingLabelBehavior.never,
+        prefixIcon: widget.preffixIcon,
+        suffixIcon: widget.hideInput
+            ? IconButton(
+                onPressed: () {
+                  setState(() {
+                    _hideInput = !_hideInput;
+                  });
+                },
+                icon: Icon(
+                  !_hideInput ? Icons.visibility : Icons.visibility_off,
+                  color: widget.borderColor ?? context.colorScheme.background,
+                ),
+              )
+            : widget.suffixIcon,
       ),
+      validator: widget.validator,
+      inputFormatters: widget.inputFormatters,
     );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/material.dart';
 import 'package:profy/app/core/domain/entities/named_routes.dart';
 import 'package:profy/app/shared/components/spacer_height_widget.dart';
 
@@ -27,14 +27,14 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Acrylic(
-      child: Center(
+    return const Scaffold(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text('Splash Page'),
             SpacerHeight(),
-            ProgressRing(),
+            CircularProgressIndicator(),
           ],
         ),
       ),
