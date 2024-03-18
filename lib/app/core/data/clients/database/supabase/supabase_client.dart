@@ -115,9 +115,17 @@ class SupaBaseService implements ClientDataBase {
 
   @override
   Future<Map<String, dynamic>> signIn(
-      {required ClientDataBaseSignInParams params}) {
-    // TODO: implement signIn
-    throw UnimplementedError();
+      {required ClientDataBaseSignInParams params}) async {
+    final AuthResponse result = await _supa.auth.signInWithPassword(
+      email: params.email,
+      password: params.password,
+    );
+
+    if (result.user == null) {
+      throw Exception('Erro ao tentar fazer login');
+    }
+
+    return result.user!.toJson();
   }
 
   @override
