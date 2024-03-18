@@ -5,7 +5,12 @@ import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:profy/app/core/domain/entities/app_global.dart';
 import 'package:profy/app/core/domain/entities/database_keys.dart';
+import 'package:profy/app/core/domain/entities/either_of.dart';
+import 'package:profy/app/core/domain/entities/failure.dart';
+import 'package:profy/app/core/domain/entities/usecase.dart';
 import 'package:profy/app/di/dependency_injection.config.dart';
+import 'package:profy/app/modules/auth/domain/usecases/auto_login.dart';
+import 'package:profy/app/modules/user/domain/entities/user_entity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -21,7 +26,7 @@ Future<void> configureDependencies() async {
 
   await getIt.init();
 
-  // final UserEntity? user = await _tryAutoLogin();
+  await _tryAutoLogin();
 
   // if (user != null && hasDevice) {
   //   // await _verifyDependenciesRegistered();
@@ -64,25 +69,25 @@ void _initAppGlobal() {
   );
 }
 
-// Future<UserEntity?> _tryAutoLogin() async {
-//   final AutoLoginUsecase autoLoginUsecase = getIt<AutoLoginUsecase>();
+Future<UserEntity?> _tryAutoLogin() async {
+  final AutoLoginUseCase autoLoginUsecase = getIt<AutoLoginUseCase>();
 
-//   final EitherOf<AppFailure, UserEntity?> response =
-//       await autoLoginUsecase(const NoArgs());
+  final EitherOf<AppFailure, UserEntity?> response =
+      await autoLoginUsecase(const NoArgs());
 
-//   final Object? result = response.get(
-//     (AppFailure reject) => reject,
-//     (UserEntity? resolve) => resolve,
-//   );
+  final Object? result = response.get(
+    (AppFailure reject) => reject,
+    (UserEntity? resolve) => resolve,
+  );
 
-//   if (result is UserEntity) {
-//     AppGlobal.instance.setUser(result);
+  if (result is UserEntity) {
+    AppGlobal.instance.setUser(result);
 
-//     return result;
-//   }
+    return result;
+  }
 
-//   return null;
-// }
+  return null;
+}
 
 // Future<void> _verifyLicense() async {
 //   final VerifyLicenseUseCase verifyLicenseUseCase =

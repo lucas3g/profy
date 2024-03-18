@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:profy/app/modules/home/presenter/home_page.dart';
 
 import '../../modules/auth/presenter/auth_page.dart';
 import '../../modules/splash/presenter/splash_page.dart';
@@ -15,6 +16,7 @@ class CustomNavigator {
     final Map<String, WidgetBuilder> appRoutes = <String, WidgetBuilder>{
       NamedRoutes.splash.route: (BuildContext context) => const SplashPage(),
       NamedRoutes.login.route: (BuildContext context) => const AuthPage(),
+      NamedRoutes.home.route: (BuildContext context) => const HomePage(),
     };
 
     final WidgetBuilder? builder = appRoutes[settings.name];

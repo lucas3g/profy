@@ -8,4 +8,5 @@ abstract class AuthRepository {
   Future<EitherOf<AppFailure, UserEntity>> signUpWithEmailAndPassword(
       {required String email, required String password});
   Future<void> signOut();
+  Future<EitherOf<AppFailure, UserEntity?>> autoLogin();
 }

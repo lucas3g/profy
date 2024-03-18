@@ -72,4 +72,13 @@ class AuthDataSourceImpl implements AuthDataSource {
 
     return AuthFailure(message: 'Erro ao tentar fazer login!');
   }
+
+  @override
+  Future<UserEntity?> autoLogin() async {
+    final Map<String, dynamic> result = await _clientDataBase.autoLogin();
+
+    final UserAdapter user = UserAdapter.fromJson(result);
+
+    return user;
+  }
 }

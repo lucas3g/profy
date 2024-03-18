@@ -15,4 +15,5 @@ abstract class ClientDataBase {
       {required ClientDataBaseCreateAccountParams params});
   Future<Map<String, dynamic>> signIn(
       {required ClientDataBaseSignInParams params});
+  Future<Map<String, dynamic>> autoLogin();
 }

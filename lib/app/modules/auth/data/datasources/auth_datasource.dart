@@ -6,4 +6,5 @@ abstract class AuthDataSource {
   Future<UserEntity> signUpWithEmailAndPassword(
       {required String email, required String password});
   Future<void> signOut();
+  Future<UserEntity?> autoLogin();
 }

@@ -25,13 +25,14 @@ import '../modules/auth/data/datasources/auth_datasource.dart' as _i14;
 import '../modules/auth/data/datasources/auth_datasource_impl.dart' as _i15;
 import '../modules/auth/data/repositories/auth_repository_impl.dart' as _i17;
 import '../modules/auth/domain/repositories/auth_repository.dart' as _i16;
-import '../modules/auth/domain/usecases/signup_user.dart' as _i18;
-import '../modules/auth/presenter/controllers/bloc/auth_bloc.dart' as _i19;
+import '../modules/auth/domain/usecases/auto_login.dart' as _i18;
+import '../modules/auth/domain/usecases/signup_user.dart' as _i19;
+import '../modules/auth/presenter/controllers/bloc/auth_bloc.dart' as _i20;
 import '../modules/user/data/datasources/local/shared_prefs_local_datasource_impl.dart'
     as _i13;
 import '../modules/user/data/datasources/local/user_local_datasource.dart'
     as _i12;
-import 'dependency_injection.dart' as _i20;
+import 'dependency_injection.dart' as _i21;
 
 extension GetItInjectableX on _i1.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -66,12 +67,14 @@ extension GetItInjectableX on _i1.GetIt {
         _i15.AuthDataSourceImpl(clientDataBase: gh<_i6.ClientDataBase>()));
     gh.factory<_i16.AuthRepository>(() =>
         _i17.AuthRepositoryImpl(authDataSource: gh<_i14.AuthDataSource>()));
-    gh.factory<_i18.SignUpUseCase>(
-        () => _i18.SignUpUseCase(authRepository: gh<_i16.AuthRepository>()));
-    gh.factory<_i19.AuthBloc>(
-        () => _i19.AuthBloc(signUpUseCase: gh<_i18.SignUpUseCase>()));
+    gh.factory<_i18.AutoLoginUseCase>(
+        () => _i18.AutoLoginUseCase(authRepository: gh<_i16.AuthRepository>()));
+    gh.factory<_i19.SignUpUseCase>(
+        () => _i19.SignUpUseCase(authRepository: gh<_i16.AuthRepository>()));
+    gh.factory<_i20.AuthBloc>(
+        () => _i20.AuthBloc(signUpUseCase: gh<_i19.SignUpUseCase>()));
     return this;
   }
 }
 
-class _$RegisterModule extends _i20.RegisterModule {}
+class _$RegisterModule extends _i21.RegisterModule {}

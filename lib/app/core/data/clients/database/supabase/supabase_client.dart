@@ -119,4 +119,15 @@ class SupaBaseService implements ClientDataBase {
     // TODO: implement signIn
     throw UnimplementedError();
   }
+
+  @override
+  Future<Map<String, dynamic>> autoLogin() async {
+    final UserResponse result = await _supa.auth.getUser();
+
+    if (result.user == null) {
+      throw Exception('Erro ao tentar fazer login');
+    }
+
+    return result.user!.toJson();
+  }
 }

@@ -42,4 +42,16 @@ class AuthRepositoryImpl implements AuthRepository {
     // TODO: implement signOut
     throw UnimplementedError();
   }
+
+  @override
+  Future<EitherOf<AppFailure, UserEntity?>> autoLogin() async {
+    try {
+      final UserEntity? user = await _authDataSource.autoLogin();
+      return resolve(user);
+    } on AppFailure catch (error) {
+      return reject(AuthFailure(message: error.message));
+    } catch (error) {
+      return reject(AuthFailure(message: 'Erro ao tentar fazer login'));
+    }
+  }
 }
