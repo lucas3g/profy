@@ -75,10 +75,10 @@ class SupaBaseService implements ClientDataBase {
       return result;
     }
 
-    final Map<String, dynamic> match = <String, dynamic>{};
+    final Map<String, Object> match = <String, Object>{};
 
     for (ClientDataBaseFilters filter in params.filters) {
-      match.addAll(<String, dynamic>{filter.field: filter.value});
+      match.addAll(<String, Object>{filter.field: filter.value});
     }
 
     final PostgrestList result =
